@@ -27,15 +27,16 @@ def extract_description (soup):
     return target_element.text
 
 def extract_event_details (soup):
-    #event_title = soup.title.text.strip()
-    event_title = soup.find("p", {"class":"h3 h"}).text.strip()
+    #event_title = soup.find("p", {"class":"h3 h"}).text.strip()
+    #event_title = soup.title.text.strip(event_title)
+    event_title = soup.find("a", {"class": "venueLink"}).text.strip()
     eventPrice = soup.find("p", {"class":"h4 h"}).text.strip()
     eventPrice = eventPrice[:15]
     eventAge = soup.find("small", {"class":"minAge"}).text.strip()
     #venue-1016908 > div > div > p.h4.h > span > small:nth-child(1)
     eventDistance = soup.find("p", {"class": "distance"}).text.strip()
     #//*[@id="venue-1016908"]/div/div/p[2]/text()
-    eventLink = soup.find("a", {"class": "venueLink"}).text.strip()
+    eventLink = soup.find("a", {"class": "venueLink"}).get("href") #.text.strip()
     ##venue-1016908 > div > div > p.button > a
     event_image = soup.find("img", {"class": "img lazy"})
     ##venue-1016908 > div > span
@@ -43,9 +44,9 @@ def extract_event_details (soup):
     event_details = {
         "title": event_title,
         "price": eventPrice,
-        "age": eventAge,
+        "minimum age": eventAge,
         "distance": eventDistance,
-        "link": eventLink,
+        "link": "https://theactivitypeople.co.uk" + eventLink,
         "image": event_image
     }
 
